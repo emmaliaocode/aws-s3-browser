@@ -10,10 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # DjangoS3Browser
+    'djangoS3Browser'
 ]
 
 MIDDLEWARE = [
@@ -54,7 +57,7 @@ ROOT_URLCONF = 'aws_s3_browser.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -63,6 +66,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            # DjangoS3Browser
+            'libraries': {
+                's3-load': 'djangoS3Browser.templatetags.s3tags',
+            },
         },
     },
 ]
@@ -115,9 +122,33 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#################
+# DjangoS3Browser
+#################
+STATIC_URL = '/static/'
+STATIC_ROOT = '/static/'
+
+S3_BROWSER_SETTINGS = "djangoS3Browser"
+
+# AWS_ACCESS_KEY_ID = ""
+# AWS_SECRET_ACCESS_KEY = ""
+AWS_STORAGE_BUCKET_NAME = os.getenv('BUCKET_NAME')
+AWS_AUTO_CREATE_BUCKET = True
+AWS_QUERYSTRING_AUTH = False
+
+# AWS cache settings, don't change unless you know what you're doing:
+AWS_EXPIRY = 60 * 60 * 24 * 7
+
+# Revert the following and use str after the above-mentioned bug is fixed in
+# either django-storage-redux or boto
+control = 'max-age=%d, s-maxage=%d, must-revalidate' % (AWS_EXPIRY, AWS_EXPIRY)
+AWS_HEADERS = {
+    'Cache-Control': bytes(control, encoding='latin-1')
+}
