@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-z$q=%$usoo-c!23=)^+3)n1mufd@m=mbm6^)#@nl@7#@yw=n9d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 
 # Application definition
@@ -129,16 +129,18 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#################
-# DjangoS3Browser
-#################
+
+##########################
+# DjangoS3Browser Settings
+##########################
 STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
 
-S3_BROWSER_SETTINGS = "djangoS3Browser"
+S3_BROWSER_SETTINGS = 'djangoS3Browser'
 
-# AWS_ACCESS_KEY_ID = ""
-# AWS_SECRET_ACCESS_KEY = ""
+AWS_ACCESS_KEY_ID =  os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+
 AWS_STORAGE_BUCKET_NAME = os.getenv('BUCKET_NAME')
 AWS_AUTO_CREATE_BUCKET = True
 AWS_QUERYSTRING_AUTH = False
