@@ -14,6 +14,13 @@ cd aws-s3-browser
 pipenv install dist/djangos3browser-0.3.tar.gz
 ```
 
+## Static files
+Collect the static files to `STATIC_ROOT` which is set in `settings.py`.
+```
+python manage.py collectstatic
+```
+`STATIC_URL` is the URL to use when referring to static files located in `STATIC_ROOT` (e.g., /static/ or [http://www.example.com/static](http://www.example.com/static)).
+
 ## Build image
 Build Docker image.
 ```bash
