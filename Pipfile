@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 django = "==3.0"
-djangos3browser = {path = "./dist/djangos3browser-0.3.tar.gz"}
+djangos3browser = {file = "dist/djangos3browser-0.3.tar.gz"}
 
 [dev-packages]
 

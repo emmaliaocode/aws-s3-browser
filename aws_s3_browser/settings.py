@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-z$q=%$usoo-c!23=)^+3)n1mufd@m=mbm6^)#@nl@7#@yw=n9d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'aws_s3_browser.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -140,8 +140,11 @@ S3_BROWSER_SETTINGS = 'djangoS3Browser'
 
 AWS_ACCESS_KEY_ID =  os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_SESSION_TOKEN = os.getenv('AWS_SESSION_TOKEN')
 
+AWS_IAM_ROLE_ARN = os.getenv('AWS_IAM_ROLE_ARN')
 AWS_STORAGE_BUCKET_NAME = os.getenv('BUCKET_NAME')
+
 AWS_AUTO_CREATE_BUCKET = True
 AWS_QUERYSTRING_AUTH = False
 
