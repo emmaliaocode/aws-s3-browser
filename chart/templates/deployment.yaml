@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Release.Name }}
+  name: {{ .Release.Name }}-deployment
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: aws-s3-browser
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        command: ["python"]
+        args: ["manage.py", "runserver", "0.0.0.0:8000"]
+        ports:
+        - containerPort: 8000
+        env:
+        - name: AWS_IAM_ROLE_ARN
+          value: {{ .Values.role_arn }}
+        - name: BUCKET_NAME
+          value: {{ .Values.bucket_name }}
+        - name: AWS_ACCESS_KEY_ID
+          value: {{ .Values.aws_credentials.aws_access_key_id }}
+        - name: AWS_SECRET_ACCESS_KEY
+          value: {{ .Values.aws_credentials.aws_secret_access_key }}
+        - name: AWS_SESSION_TOKEN
+          value: {{ .Values.aws_credentials.aws_session_token }}
+        imagePullPolicy: Always
+      serviceAccountName: {{ .Release.Name }}-serviceaccount

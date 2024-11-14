@@ -1,0 +1,14 @@
+image:
+  repository: emmaliaocode/aws-s3-browser
+  tag: 1.1.1-amd64
+
+host: test.mgcp.a1q7.net
+
+role_arn: arn:aws:iam::284744337008:role/toi-emma-serviceaccount
+
+bucket_name: mgcp-test-emma-toi-bucket-us-east-1
+
+aws_credentials:
+  aws_access_key_id: ''
+  aws_secret_access_key: ''
+  aws_session_token: ''
